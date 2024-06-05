@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" />
+<!-- <link href="http://apps.bdimg.com/libs/bootstrap/3.2.0/css/bootstrap-theme.min.css" rel="stylesheet" /> -->
+<link href="/static/css/theme.min.css" rel="stylesheet" />
+<meta name="robots" content="all" />
+<meta name="author" content="spiderbuf" />
+<meta name="copyright" content="spiderbuf" />
+<meta name="google-adsense-account" content="ca-pub-4169504979687359">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4169504979687359"
+     crossorigin="anonymous"></script>
+
+<meta name="keywords" content="python,python 爬虫,xpath,selenium,爬虫训练,爬虫攻防,爬虫,反爬,robots,user agent,数据分析,爬虫练习网站,在线工具" />
+<meta name="description" content="加入Python爬虫攻防技术社区，通过游戏化、亲身体验，将你的网络爬虫技能提升到一个新的水平。而这还仅仅是个开始。各类在线工具提升效率。" />
+  <title>分页参数分析及翻页爬取_S04_Spiderbuf</title>
+</head>
+
+<body>
+  
+<nav class="navbar navbar-inverse navbar-fixed-top" style="background: #111927">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="http://www.spiderbuf.cn" style="color: #ffffff" title="Spiderbuf首页">Spiderbuf</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-haspopup="true"
+                        aria-expanded="false" style="color: #ffffff" title="在线工具">在线工具<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/md5" target="_blank" style="color: #ffffff" title="MD5在线加密">MD5在线加密</a></li>
+                        <li><a href="/uuid" target="_blank" style="color: #ffffff" title="UUID在线生成">UUID在线生成</a></li>  
+                        <li><a href="/timestamp" target="_blank" style="color: #ffffff" title="在线时间戳转换工具">在线时间戳转换工具</a></li>
+                        <li><a href="/randomstr" target="_blank" style="color: #ffffff" title="随机字符串在线生成">随机字符串在线生成</a></li>                
+                        <li><a href="/imgbase64" target="_blank" style="color: #ffffff" title="在线图片Base64转换">在线图片Base64转换</a></li>
+                        <li><a href="/base64" target="_blank" style="color: #ffffff" title="Base64在线加密解密">Base64在线加密解密</a></li>        
+                    </ul>
+                </li>
+                <li><a href="http://www.spiderbuf.cn/list" style="color: #ffffff" title="进入爬虫练习靶场">进入靶场</a></li>
+                <li><a href="https://space.bilibili.com/387313518/channel/seriesdetail?sid=282719" target="_blank"
+                        style="color: #ffffff" title="视频教程">视频教程</a></li>
+                <li><a href="http://www.spiderbuf.cn/snippet" style="color: #ffffff" title="Python爬虫常用代码">代码片段</a></li>
+                <li><a href="http://www.spiderbuf.cn/about" style="color: #ffffff" title="关于Spiderbuf">关于我们</a></li>
+                <li><a href="http://www.spiderbuf.cn/contribute" rel="noreferrer" title="请作者喝咖啡"
+                        style="color: #ffffff"><svg viewBox="0 0 24 24" width="1.2em" height="1.2em" font-size="16"
+                            class="text-gray-500 hover:text-amber-500 dark:text-gray-400 dark:hover:text-amber-500">
+                            <path fill="currentColor"
+                                d="M2 21h18v-2H2M20 8h-2V5h2m0-2H4v10a4 4 0 0 0 4 4h6a4 4 0 0 0 4-4v-3h2a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2Z">
+                            </path>
+                        </svg></a></li>
+                <li><a href="https://github.com/hhuayuan/spiderbuf" target="_blank" rel="noreferrer" title="GitHub项目主页"
+                        style="color: #ffffff"><svg viewBox="0 0 24 24" width="1.2em" height="1.2em" font-size="15"
+                            class="text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-100">
+                            <path fill="currentColor"
+                                d="M12 .297c-6.63 0-12 5.373-12 12c0 5.303 3.438 9.8 8.205 11.385c.6.113.82-.258.82-.577c0-.285-.01-1.04-.015-2.04c-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729c1.205.084 1.838 1.236 1.838 1.236c1.07 1.835 2.809 1.305 3.495.998c.108-.776.417-1.305.76-1.605c-2.665-.3-5.466-1.332-5.466-5.93c0-1.31.465-2.38 1.235-3.22c-.135-.303-.54-1.523.105-3.176c0 0 1.005-.322 3.3 1.23c.96-.267 1.98-.399 3-.405c1.02.006 2.04.138 3 .405c2.28-1.552 3.285-1.23 3.285-1.23c.645 1.653.24 2.873.12 3.176c.765.84 1.23 1.91 1.23 3.22c0 4.61-2.805 5.625-5.475 5.92c.42.36.81 1.096.81 2.22c0 1.606-.015 2.896-.015 3.286c0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12">
+                            </path>
+                        </svg></a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row" style="margin-top: 30px">
+        <h3>设备信息</h3>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>IP地址</th>
+                <th>MAC地址</th>
+                <th>设备名称</th>
+                <th>设备类型</th>
+                <th>操作系统</th>
+                <th>开放端口</th>
+                <th>在线状态</th>
+            </tr>
+            </thead>
+            <tbody>
+            
+            <tr>
+                <td>1</td>
+                <td>172.18.117.6</td>
+                <td>DD-D1-1C-32-89-E3</td>
+                <td>OA服务器</td>
+                <td>服务器</td>
+                <td>HUAWEI</td>
+                <td>80,22,443</td>
+                <td>在线</td>
+            </tr>
+            
+            <tr>
+                <td>2</td>
+                <td>10.49.119.200</td>
+                <td>34-59-71-41-63-8E</td>
+                <td>交换机</td>
+                <td>交换机</td>
+                <td>HUAWEI</td>
+                <td>80,22,443</td>
+                <td>离线</td>
+            </tr>
+            
+            <tr>
+                <td>3</td>
+                <td>172.29.31.61</td>
+                <td>EE-93-CB-06-0D-D3</td>
+                <td>测试服务器</td>
+                <td>服务器</td>
+                <td>Linux</td>
+                <td>80,22,443</td>
+                <td>在线</td>
+            </tr>
+            
+            <tr>
+                <td>4</td>
+                <td>172.20.98.238</td>
+                <td>51-02-BF-FA-AB-8D</td>
+                <td>交换机</td>
+                <td>交换机</td>
+                <td>HUAWEI</td>
+                <td>80,22,443</td>
+                <td>在线</td>
+            </tr>
+            
+            <tr>
+                <td>5</td>
+                <td>10.52.185.102</td>
+                <td>70-A5-E9-5E-EC-97</td>
+                <td>存储服务器</td>
+                <td>服务器</td>
+                <td>HUAWEI</td>
+                <td>9000,5606</td>
+                <td>在线</td>
+            </tr>
+            
+            <tr>
+                <td>6</td>
+                <td>172.30.116.46</td>
+                <td>69-E6-56-A9-30-30</td>
+                <td>存储服务器</td>
+                <td>服务器</td>
+                <td>Windows Server 2012</td>
+                <td>80,22,443</td>
+                <td>离线</td>
+            </tr>
+            
+            <tr>
+                <td>7</td>
+                <td>10.2.190.30</td>
+                <td>E6-E4-54-64-82-E9</td>
+                <td>ERP服务器</td>
+                <td>服务器</td>
+                <td>Linux</td>
+                <td>80,22,443</td>
+                <td>离线</td>
+            </tr>
+            
+            <tr>
+                <td>8</td>
+                <td>10.46.235.52</td>
+                <td>BE-5C-49-AD-38-09</td>
+                <td>堡垒机</td>
+                <td>服务器</td>
+                <td>HUAWEI</td>
+                <td>80,22,443</td>
+                <td>在线</td>
+            </tr>
+            
+            <tr>
+                <td>9</td>
+                <td>10.104.171.123</td>
+                <td>07-15-1C-0F-66-F3</td>
+                <td>摄像头</td>
+                <td>摄像头</td>
+                <td>HUAWEI</td>
+                <td>80,22,443</td>
+                <td>在线</td>
+            </tr>
+            
+            <tr>
+                <td>10</td>
+                <td>172.28.109.198</td>
+                <td>08-C1-14-56-73-A7</td>
+                <td>存储服务器</td>
+                <td>服务器</td>
+                <td>Linux</td>
+                <td>80,22,443</td>
+                <td>在线</td>
+            </tr>
+            
+            </tbody>
+        </table>
+        <div class="pull-right" style="padding:10px;vertical-align:middle;">
+
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li><span>共5页</span></li>
+                    <li><a href="?pageno=1">1</a></li>
+                    <li><a href="?pageno=2">2</a></li>
+                    <li><a href="?pageno=3">3</a></li>
+                    <li><a href="?pageno=4">4</a></li>
+                    <li><a href="?pageno=5">5</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    
+<footer class="row" style="margin-top: 40px;height: 40px;line-height: 40px;">
+    <p class="text-center"><a href="https://beian.miit.gov.cn/" target="_blank"><span
+                style="color: #A4B1CD">粤ICP备2021093459.</span></a>
+        <span style="color: #A4B1CD">All rights reserved.</span>
+    </p>
+</footer>
+
+</div>
+<!-- /container -->
+
+<script defer src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script defer src="http://apps.bdimg.com/libs/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script defer src="/static/js/utils.js"></script>
+
+</body>
+
+</html>
