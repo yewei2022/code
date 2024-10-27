@@ -1,3 +1,5 @@
+简单记录
+
 %值%
 %值%.shp
 replace([Name],"沪蓉高速公路","HRGS")
@@ -29,5 +31,4 @@ def func(name):
 		return a.decode('utf-8')
 	else:
 		return name
-
 
