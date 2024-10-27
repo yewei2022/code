@@ -1,4 +1,4 @@
-;绘制高原站点位置和高原地形填图
+;绘制高原站点位置和高原地形图
 ;文件读取方式 http://www.ncl.ucar.edu/Applications/list_io.shtml
 ;散点图参考 http://www.ncl.ucar.edu/Applications/polyg.shtml polyg_8_lbar.ncl
 ;  ncl /mnt/d/job/code/by_ncl/ebian_fill.ncl
